@@ -3,14 +3,34 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:behaviorsPack="clr-namespace:Xamarin.Forms.BehaviorsPack;assembly=Xamarin.Forms.BehaviorsPack"
              mc:Ignorable="d"
              x:Class="EventToBehaviors.MainPage">
 
+    <ContentPage.Behaviors>
+        <behaviorsPack:EventToCommandBehavior EventName="Appearing"
+                                              Command="{Binding AppearingCommand}"></behaviorsPack:EventToCommandBehavior>
+    </ContentPage.Behaviors>
     <StackLayout>
-        <!-- Place new controls here -->
-        <Label Text="Welcome to Xamarin.Forms!" 
-           HorizontalOptions="Center"
-           VerticalOptions="CenterAndExpand" />
+        <Button Text="ClickMe"
+                Command="{Binding ButtonCommand}"></Button>
+        <ListView ItemsSource="{Binding PeopleList}">
+            <ListView.Behaviors>
+                <behaviorsPack:EventToCommandBehavior EventName="ItemTapped"
+                                                      Command="{Binding ItemTappedCommand}"
+                                                      EventArgsPropertyPath="Item"></behaviorsPack:EventToCommandBehavior>
+            </ListView.Behaviors>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <StackLayout Orientation="Vertical">
+                            <Label Text="{Binding Name}"></Label>
+                            <Label Text="{Binding Age}"></Label>
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
     </StackLayout>
 
 </ContentPage>
